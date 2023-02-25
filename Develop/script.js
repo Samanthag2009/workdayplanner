@@ -1,3 +1,10 @@
+//LEFT OFF AT LINE 72. COPY AND FORMAT THE LOCAL STORAGE FOR ALL HOURS
+//MAKE SURE INIT RETRIEVES IT ON START UP
+// THEN WE DO DAY.JS BULLSHIT
+
+
+
+
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
@@ -12,7 +19,8 @@ $(document).ready (function () {
 
 
   var btnEl = document.querySelector("#btn");
-  var eventInput = document.querySelector("#event");
+  var nineInput = document.querySelector("#nine");
+  var elevenAm = document.querySelector('eleven');
   var msgDiv = document.querySelector('#msg');
 
   renderEvents();
@@ -23,26 +31,35 @@ $(document).ready (function () {
   }
 
   function renderEvents() {
-    var events = localStorage.getItem("event")
+    var nine = localStorage.getItem("nine");
+    var eleven = localStorage.getItem("eleven");
 
-    if (!events) {
+    if (!nine) {
       return;
     }
 
-    eventInput.textContent = events;
+    if (!eleven) {
+      return;
+    }
+
+    nineInput.textContent = nine;
+    elevenAm.textContent = eleven;
   }
   
   btnEl.addEventListener("click", function(event){
     event.preventDefault();
     
-    var description = document.querySelector("#event").value;
+    var nine = document.querySelector("#nine").value;
+    var eleven = document.querySelector("#eleven").value;
     
-    if (description === "") {
+    if (nine === "") {
       displayMessage("error", "Please enter an event.");
     } else {
       displayMessage("success", "Success! Schedule updated.");
       
-      localStorage.setItem("event", description);
+      localStorage.setItem("9AM", JSON.stringify(nine));
+
+      localStorage.setItem("11 AM", eleven);
       renderEvents();
     }
 
@@ -50,17 +67,16 @@ $(document).ready (function () {
     
   });
 //Page Load
-// function init() {
+function init() {
 
+  document.getElementById("nine").innerHTML=
+  localStorage.getItem("9AM")
+  
+  renderEvents();
 
-//   var stored = JSON.parse(localStorage.getItem(".description"));
+};
 
-//     if (stored !== null) {
-//     events = stored;
-//    }
-//   renderEvents();
-
-// };
+init();
 
 // init()
 // };
