@@ -1,7 +1,7 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
-$(function () {
+$(document).ready (function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
   // local storage. HINT: What does `this` reference in the click listener
@@ -11,37 +11,59 @@ $(function () {
 
 
 
-  var btnEl = document.querySelector(".btn");
-  var description = document.querySelector("#event").value;
-  var events = [];
+  var btnEl = document.querySelector("#btn");
+  var eventInput = document.querySelector("#event");
+  var msgDiv = document.querySelector('#msg');
+
+  renderEvents();
+
+  function displayMessage(type, message) {
+    msgDiv.textContent = message;
+    msgDiv.setAttribute('class', type);
+  }
 
   function renderEvents() {
-description.innerHTML = "";
+    var events = localStorage.getItem("event")
 
+    if (!events) {
+      return;
+    }
+
+    eventInput.textContent = events;
   }
   
-  btnEl.addEventListener("click", function storeAnswer() {
-
+  btnEl.addEventListener("click", function(event){
+    event.preventDefault();
+    
     var description = document.querySelector("#event").value;
-    var key = $(this).
-    localStorage.setItem(key, JSON.stringify(description));
+    
+    if (description === "") {
+      displayMessage("error", "Please enter an event.");
+    } else {
+      displayMessage("success", "Success! Schedule updated.");
+      
+      localStorage.setItem("event", description);
+      renderEvents();
+    }
+
+    console.log("this works");
     
   });
 //Page Load
-function init() {
+// function init() {
 
 
-  var stored = JSON.parse(localStorage.getItem(".description"));
+//   var stored = JSON.parse(localStorage.getItem(".description"));
 
-  if (stored !== null) {
-    events = stored;
-  }
-renderEvents();
+//     if (stored !== null) {
+//     events = stored;
+//    }
+//   renderEvents();
 
-};
+// };
 
-init()
-};
+// init()
+// };
 //localStorage.setItem
 //localStorage.getItem(".description")
 /*
@@ -59,26 +81,26 @@ btnEl.click(function() {
   // attribute of each time-block be used to conditionally add or remove the
   // past, present, and future classes? How can Day.js be used to get the
   // current hour in 24-hour time?
-function time() {
-  function timeConvert() {
-var 
+// function time() {
+//   function timeConvert() {
+// var 
 
-  }
-  var now = dayjs().hour();
-  var timeBlock = 
+//   }
+//   var now = dayjs().hour();
+//   var timeBlock = 
 
-  if (timeBlock = now) {
-    element.classList.add("present");
-  }
+//   if (timeBlock = now) {
+//     element.classList.add("present");
+//   }
 
-};
+// };
 
-  //
-  // TODO: Add code to get any user input that was saved in localStorage and set
-  // the values of the corresponding textarea elements. HINT: How can the id
-  // attribute of each time-block be used to do this?
-  //
-  // TODO: Add code to display the current date in the header of the page.
-var today = dayjs();
-$('#currentDay').text(today.format('dddd MMMM D, YYYY'));
-});
+//   //
+//   // TODO: Add code to get any user input that was saved in localStorage and set
+//   // the values of the corresponding textarea elements. HINT: How can the id
+//   // attribute of each time-block be used to do this?
+//   //
+//   // TODO: Add code to display the current date in the header of the page.
+// var today = dayjs();
+// $('#currentDay').text(today.format('dddd MMMM D, YYYY'));
+ });
